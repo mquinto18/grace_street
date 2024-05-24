@@ -58,6 +58,18 @@ if(isset($_POST['search'])) {
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
+<style>
+    .discount_price{
+        display: flex;
+        justify-content: space-between;
+        font-size: 13px;
+    }
+    .discount_price .discount{
+        background-color: red;
+        color: white;
+        padding: 2px;
+    }
+</style>
 <body>
     <?php include 'additional/header.php'; ?>
     <?php include 'chat.php'; ?>
@@ -89,51 +101,61 @@ if(isset($_POST['search'])) {
                     <h1>Shop All</h1>
                 </div>
                 <div class="products-table">
-                    <?php
-                        if(mysqli_num_rows($select_product) > 0) {
-                            while($fetch_product = mysqli_fetch_assoc($select_product)) {
+                <?php
+                    if(mysqli_num_rows($select_product) > 0) {
+                        while($fetch_product = mysqli_fetch_assoc($select_product)) {
+                            $original_price = $fetch_product['product_price'];
+                            $discount = $fetch_product['product_discount'];
+                            $discounted_price = $original_price - ($original_price * ($discount / 100));
                     ?>
                     <form id="productForm<?= $fetch_product['id']; ?>">
-                        <div class="items-product">
-                            <div class="product_table">
-                                <div class="items-content">
-                                    <div class="quick_view">
-                                        <a href="quick_view.php?pid=<?= $fetch_product['id']; ?>" class="fas fa-eye"></a>
-                                        <a href="#" class="fa-solid fa-heart wishlist-btn" data-pid="<?= $fetch_product['id']; ?>" data-product-image="<?= $fetch_product['product_image']; ?>" data-product-name="<?= $fetch_product['product_name']; ?>" data-product-price="<?= $fetch_product['product_price']; ?>" onclick="addToWishlist(event)"></a>
-
+                            <div class="items-product">
+                                <div class="product_table">
+                                    <div class="items-content">
+                                        <div class="quick_view">
+                                            <a href="quick_view.php?pid=<?= $fetch_product['id']; ?>" class="fas fa-eye"></a>
+                                            <a href="#" class="fa-solid fa-heart wishlist-btn" data-pid="<?= $fetch_product['id']; ?>" data-product-image="<?= $fetch_product['product_image']; ?>" data-product-name="<?= $fetch_product['product_name']; ?>" data-product-price="<?= $fetch_product['product_price']; ?>" onclick="addToWishlist(event)"></a>
+                                        </div>
+                                        <input type="hidden" name="pid" value="<?= $fetch_product['id']; ?>">
+                                        <div class="product_images">
+                                            <img src="uploads/images/<?php echo $fetch_product['product_image'];?>" alt="">
+                                        </div>
+                                        <h1 style="margin: 0; margin-top: 10px; font-size: 15px;" class="product_name"><?php echo $fetch_product['product_name'];?></h1>
+                                        <div class="discount_price">
+                                            <p style="margin: 0; font-size: 13px;">
+                                                <?php
+                                                if ($fetch_product['product_stock_s'] > 0) {
+                                                    echo $fetch_product['product_stock_s'] . '<span> in stock</span>';
+                                                } else {
+                                                    echo '<span style="background-color: red; color: white; padding: 3px;">Out of stock</span>';
+                                                }
+                                                ?>
+                                            </p>
+                                            <?php if ($fetch_product['product_discount'] > 0): ?>
+                                                <p class="discount"><?php echo $fetch_product['product_discount']; ?>% off</p>
+                                            <?php endif; ?>
+                                        </div>
+                                        <div class="itembottom-content">
+                                            <button class="add-btn" <?php echo ($fetch_product['product_stock_s'] > 0) ? '' : 'disabled'; ?> onclick="addToCart(<?php echo $fetch_product['id']; ?>, '<?php echo $fetch_product['product_image']; ?>', '<?php echo $fetch_product['product_name']; ?>', '<?php echo $fetch_product['product_price'];  ?>' , '<?php echo $discounted_price  ?>')">Add to cart</button>
+                                            <span style="margin: 0; color:#8c8989; font-size: 12px;">PHP
+                                                <?php if ($fetch_product['product_discount'] > 0): ?>
+                                                    <p class="product-price" style="color: green; font-size: 16px; margin: 0; text-decoration: line-through;">
+                                                        <?php echo $original_price; ?>.00
+                                                    </p>
+                                                    <p class="discounted-price" style="color: black; font-size: 18px; margin: 0;">
+                                                        <?php echo number_format($discounted_price, 2); ?>
+                                                    </p>
+                                                <?php else: ?>
+                                                    <p class="product-price" style="color: black; font-size: 18px; margin: 0;">
+                                                        <?php echo $original_price; ?>.00
+                                                    </p>
+                                                <?php endif; ?>
+                                            </span>
+                                        </div>
                                     </div>
-                                    <input type="hidden" name="pid" value="<?= $fetch_product['id']; ?>">
-                                    <div class="product_images">
-                                        <img  src="uploads/images/<?php echo $fetch_product['product_image'];?>" alt="">
-                                    </div>
-                                    <h1 style="margin: 0; margin-top: 10px; font-size: 15px;" class="product_name"><?php echo $fetch_product['product_name'];?></h1>
-                                    <p style="margin: 0; font-size: 13px;">
-                                        <?php
-                                        if ($fetch_product['product_stock'] > 0) {
-                                            echo $fetch_product['product_stock'] . '<span> in stock</span>';
-                                        } else {
-                                            echo '<span style="background-color: red; color: white; padding: 3px;">Out of stock</span>';
-                                        }
-                                        ?>
-                                    </p>
-                                    <div class="itembottom-content">
-                                    <button class="add-btn" <?php echo ($fetch_product['product_stock'] > 0) ? '' : 'disabled'; ?> onclick="addToCart(<?php echo $fetch_product['id']; ?>, '<?php echo $fetch_product['product_image']; ?>', '<?php echo $fetch_product['product_name']; ?>', '<?php echo $fetch_product['product_price']; ?>')">Add to cart</button>                                        <span style="marin: 0; color:#8c8989; font-size: 12px;">PHP
-                                            <p class="product-price" style="color: black; font-size: 18px; margin: 0;"><?php echo $fetch_product['product_price'];?>.00</p>
-                                        </span>
-                                    </div>
-                                    <?php
-                                        $threeDaysAgo = date('Y-m-d', strtotime('-3 days'));
-
-                                        if ($fetch_product['date'] >= $threeDaysAgo && $fetch_product['date'] <= date('Y-m-d')) {
-                                            echo '<div style="width: fit-content; border-radius: 10px; margin: 0 auto; background-color: #d4222e; padding: 2px 10px;  color: white;">
-                                                <p style="margin: 0; font-size: 10px;">NEW ITEM!</p>
-                                            </div>';
-                                        }
-                                    ?>
                                 </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
                     <?php
                             }
                         } else {
@@ -159,8 +181,8 @@ if(isset($_POST['search'])) {
             });
         });
 
-        function addToCart(productId, productImage, productName, productPrice) {
-            console.log("Adding to cart:", productId, productImage, productName, productPrice);
+        function addToCart(productId, productImage, productName, productPrice, discountedPrice) {
+            console.log("Adding to cart:", productId, productImage, productName, productPrice, discountedPrice);
 
             $.ajax({
                 type: 'POST',
@@ -170,6 +192,7 @@ if(isset($_POST['search'])) {
                     productImage: productImage,
                     productName: productName,
                     productPrice: productPrice,
+                    discountedPrice: discountedPrice, // Pass discounted price
                     productQuantity: 1  // Default quantity is 1
                 },
                 dataType: 'json',

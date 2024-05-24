@@ -12,6 +12,9 @@ if(isset($_POST['productId'], $_POST['productImage'], $_POST['productName'], $_P
     $userId = $_SESSION['user-id'];
     $productQuantity = $_POST['productQuantity'];
 
+    // Check if discounted price is provided
+    $discountedPrice = isset($_POST['discountedPrice']) ? $_POST['discountedPrice'] : $productPrice;
+    
     $existingProductQuery = $con->prepare("SELECT * FROM cart WHERE Product_Name = ? AND user_email = ? LIMIT 1");
     $existingProductQuery->bind_param("ss", $productName, $userEmail);
     $existingProductQuery->execute();
@@ -26,7 +29,7 @@ if(isset($_POST['productId'], $_POST['productImage'], $_POST['productName'], $_P
         $success = $updateQuery->execute();
         $updateQuery->close();
     } else {
-        $totalPrice = $productPrice * $productQuantity;
+        $totalPrice = $discountedPrice * $productQuantity; // Use discounted price for total price calculation
         $sql = "INSERT INTO cart (Product_Name, Product_Price, Product_Quantity, Product_Image, user_id, user_email) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $con->prepare($sql);
         $stmt->bind_param("sdisss", $productName, $totalPrice, $productQuantity, $productImage, $userId, $userEmail);

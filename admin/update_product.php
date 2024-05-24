@@ -14,9 +14,13 @@ if(isset($_GET['id'])) {
 if(isset($_POST['productId'])) {
     $productId = $_POST['productId'];
     $productName = $_POST['product_name'];
-    $productStock = $_POST['product_stock'];
+    $productStockS = $_POST['product_stock_s'];
+    $productStockM = $_POST['product_stock_m'];
+    $productStockL = $_POST['product_stock_l'];
+    $productStockXL = $_POST['product_stock_xl'];
+    $productStockXXL = $_POST['product_stock_xxl'];
     $productPrice = $_POST['product_price'];
-    $product_description = $_POST['Description'];
+    $productDescription = $_POST['Description'];
     $productGender = $_POST['product_gender'];
 
     // Retrieve existing image name from the database
@@ -37,7 +41,18 @@ if(isset($_POST['productId'])) {
     }
 
     // Update product information in the database
-    $updateQuery = "UPDATE product_list SET product_name = '$productName', product_stock = '$productStock', product_price = '$productPrice', product_image = '$imageName',description = '$product_description' , gender = '$productGender' WHERE id = $productId";
+    $updateQuery = "UPDATE product_list SET 
+                    product_name = '$productName', 
+                    product_stock_s = '$productStockS', 
+                    product_stock_m = '$productStockM', 
+                    product_stock_l = '$productStockL', 
+                    product_stock_xl = '$productStockXL', 
+                    product_stock_xxl = '$productStockXXL', 
+                    product_price = '$productPrice', 
+                    product_image = '$imageName', 
+                    description = '$productDescription', 
+                    gender = '$productGender' 
+                    WHERE id = $productId";
     
     if(mysqli_query($con, $updateQuery)) {
         // Product updated successfully
@@ -48,8 +63,8 @@ if(isset($_POST['productId'])) {
         echo "Error: " . mysqli_error($con);
     }
 }
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -78,8 +93,24 @@ if(isset($_POST['productId'])) {
                                 <input type="text" id="product_name" name="product_name" value="<?php echo $productData['product_name']; ?>" required>
                             </div>
                             <div class="product_update_1">
-                                <label for="total_stock">Total Stock</label>
-                                <input type="number" id="total_stock" name="product_stock" value="<?php echo $productData['product_stock']; ?>" required>
+                                <label for="total_stock_s">Stock (S)</label>
+                                <input type="number" id="total_stock_s" name="product_stock_s" value="<?php echo $productData['product_stock_s']; ?>" required>
+                            </div>
+                            <div class="product_update_1">
+                                <label for="total_stock_m">Stock (M)</label>
+                                <input type="number" id="total_stock_m" name="product_stock_m" value="<?php echo $productData['product_stock_m']; ?>" required>
+                            </div>
+                            <div class="product_update_1">
+                                <label for="total_stock_l">Stock (L)</label>
+                                <input type="number" id="total_stock_l" name="product_stock_l" value="<?php echo $productData['product_stock_l']; ?>" required>
+                            </div>
+                            <div class="product_update_1">
+                                <label for="total_stock_xl">Stock (XL)</label>
+                                <input type="number" id="total_stock_xl" name="product_stock_xl" value="<?php echo $productData['product_stock_xl']; ?>" required>
+                            </div>
+                            <div class="product_update_1">
+                                <label for="total_stock_xxl">Stock (XXL)</label>
+                                <input type="number" id="total_stock_xxl" name="product_stock_xxl" value="<?php echo $productData['product_stock_xxl']; ?>" required>
                             </div>
                             <div class="product_update_1">
                                 <label for="product_price">Product Price</label>
@@ -87,7 +118,7 @@ if(isset($_POST['productId'])) {
                             </div>
                             <div class="product_update_1">
                                 <label for="product_image">Product Image</label>
-                                <input type="file" id="product_image" name="product_image" readonly>
+                                <input type="file" id="product_image" name="product_image">
                             </div>
                             <div class="product_update_1">
                                 <label for="product_gender">Gender</label>
@@ -99,7 +130,7 @@ if(isset($_POST['productId'])) {
                             </div>
                             <div class="product_update_1">
                                 <label for="Description">Description</label>
-                                <input type="text" id="Description" name="Description" maxlength="100">
+                                <input type="text" id="Description" name="Description" value="<?php echo $productData['description']; ?>" maxlength="100">
                             </div>
                         </div>
                         <div class="update_btn">
@@ -117,9 +148,63 @@ if(isset($_POST['productId'])) {
             alert('Product Updated');
         });
         document.getElementById('closeProductBtn').addEventListener('click', function(event) {
-            // Redirect to products.php when the button is clicked
             window.location.href = 'products.php';
         });
     </script>
 </body>
 </html>
+
+<style>
+    .update_product_container {
+        padding: 20px;
+        margin: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .update_product_box {
+        max-width: 600px;
+        margin: auto;
+    }
+    .update_text-box h1 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .products_add_icon {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        cursor: pointer;
+    }
+    .update_columns {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+    }
+    .product_update_1 label {
+        display: block;
+        margin-bottom: 5px;
+    }
+    .product_update_1 input, .product_update_1 select {
+        width: 100%;
+        padding: 8px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    .update_btn {
+        text-align: center;
+        margin-top: 20px;
+    }
+    .update_btn button {
+        padding: 10px 20px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .update_btn button:hover {
+        background-color: #218838;
+    }
+</style>

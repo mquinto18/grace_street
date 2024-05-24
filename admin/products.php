@@ -131,8 +131,13 @@ $result = mysqli_query($con, $sql);
                         <tr>
                             <th>Image</th>
                             <th>Product Name</th>
-                            <th>Stock</th>
+                            <th>Stock (S)</th>
+                            <th>Stock (M)</th>
+                            <th>Stock (L)</th>
+                            <th>Stock (XL)</th>
+                            <th>Stock (XXL)</th>
                             <th>Price</th>
+                            <th>Discount</th>
                             <th>Status</th>
                             <th>Description</th>
                             <th>Gender</th> <!-- Added Gender column -->
@@ -146,8 +151,13 @@ $result = mysqli_query($con, $sql);
                             <tr>
                                 <td><img width="30" src="../uploads/images/<?php echo $row['product_image']; ?>" alt="<?php echo $row['product_name']; ?>"></td>
                                 <td><?php echo $row['product_name']; ?></td>
-                                <td><?php echo $row['product_stock']; ?></td>
+                                <td><?php echo $row['product_stock_s']; ?></td>
+                                <td><?php echo $row['product_stock_m']; ?></td>
+                                <td><?php echo $row['product_stock_l']; ?></td>
+                                <td><?php echo $row['product_stock_xl']; ?></td>
+                                <td><?php echo $row['product_stock_xxl']; ?></td>
                                 <td><?php echo $row['product_price']; ?></td>
+                                <td><?php echo $row['product_discount']; ?>%</td>
                                 <td><?php echo $row['product_status']; ?></td>
                                 <td  style="5px"><?php echo $row['description']; ?></td>
                                 <td><?php echo $row['gender']; ?></td>
@@ -204,9 +214,40 @@ $result = mysqli_query($con, $sql);
                             <input type="text" placeholder="20 Characters Only" id="product_name" name="product_name" required maxlength="20"> 
                         </div>
                         <div class="productname">
-                            <label for="total_stock">Total Stock</label>
-                            <input type="number" id="total_stock" name="product_stock" required>
+                            <label for="total_discount">Discount</label>
+                            <select id="total_discount" name="product_discount" required>
+                                <option>Add Discount</option>
+                                <option value="10">10%</option>
+                                <option value="20">20%</option>
+                                <option value="30">30%</option>
+                                <option value="40">40%</option>
+                                <option value="50">50%</option>
+                                <option value="60">60%</option>
+                                <option value="70">70%</option>
+                            </select>   
                         </div>
+                       <div class="stock_grid">
+                            <div class="productname">
+                                <label for="total_stock">Stock (S)</label>
+                                <input type="number" id="total_stock_s" name="product_stock_s" required>
+                            </div>
+                            <div class="productname">
+                                <label for="total_stock">Stock (M)</label>
+                                <input type="number" id="total_stock_m" name="product_stock_m" required>
+                            </div>
+                            <div class="productname">
+                                <label for="total_stock">Stock (L)</label>
+                                <input type="number" id="total_stock_l" name="product_stock_l" required>
+                            </div>
+                            <div class="productname">
+                                <label for="total_stock">Stock (XL)</label>
+                                <input type="number" id="total_stock_xl" name="product_stock_xl" required>
+                            </div>
+                            <div class="productname">
+                                <label for="total_stock">Stock (XXL)</label>
+                                <input type="number" id="total_stock_xxl" name="product_stock_xxl" required>
+                            </div>
+                       </div>
                         <div class="productname">
                             <label for="product_image">Product Image</label>
                             <input type="file" id="product_image" name="product_image" required>

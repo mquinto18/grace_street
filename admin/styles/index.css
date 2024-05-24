@@ -5,6 +5,33 @@
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
 }
+.stock_grid {
+  display: flex;
+}
+.productname {
+  width: 100%;
+}
+
+.productname label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+#total_discount {
+  width: 100%;
+  padding: 3px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+#product_gender {
+  width: 100%;
+  padding: 3px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
 .active {
   background-color: #ececec;
 }
@@ -234,7 +261,7 @@
   max-width: calc(100% - 40px); /* Adjust maximum width as needed */
   margin: auto; /* Center horizontally */
   padding: 0px; /* Adjust padding as needed */
-  margin-top: 100px;
+  margin-top: 50px;
 }
 
 .products_add {

@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $totalProducts [] = '<span style="display: block; margin-bottom: 10px;">- ' . $productName . ' PHP' . $productPrice . '(' . $productQuantity . ')</span>';
 
             // Subtract product quantity from product_stock
-            $updateStockSql = "UPDATE product_list SET product_stock = product_stock - ? WHERE product_name = ?";
+            $updateStockSql = "UPDATE product_list SET product_stock_s = product_stock_s - ? WHERE product_name = ?";
             $updateStockStmt = $con->prepare($updateStockSql);
             $updateStockStmt->bind_param("is", $productQuantity, $productName);
             $updateStockStmt->execute();
