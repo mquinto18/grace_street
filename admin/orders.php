@@ -203,7 +203,7 @@ if(isset($_POST['approve'])) {
                                 <td><?php echo $row['Name']; ?></td>
                                 <td><?php echo $row['Address']; ?></td>
                                 <td><?php echo $row['Number']; ?></td>
-                                <td><?php echo $row['Total_Products']; ?></td>
+                                <td><?php echo $row['Total_Products']; ?><?php echo $row['Total_Products']; ?></td>
                                 <td><?php echo $row['Total_Price']; ?></td>
                                 <td><?php echo $row['Method']; ?></td>
                                 <td style="color: <?php

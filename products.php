@@ -114,7 +114,13 @@ if(isset($_POST['search'])) {
                                     <div class="items-content">
                                         <div class="quick_view">
                                             <a href="quick_view.php?pid=<?= $fetch_product['id']; ?>" class="fas fa-eye"></a>
-                                            <a href="#" class="fa-solid fa-heart wishlist-btn" data-pid="<?= $fetch_product['id']; ?>" data-product-image="<?= $fetch_product['product_image']; ?>" data-product-name="<?= $fetch_product['product_name']; ?>" data-product-price="<?= $fetch_product['product_price']; ?>" onclick="addToWishlist(event)"></a>
+                                            <a href="#" class="fa-solid fa-heart wishlist-btn" 
+                                                data-pid="<?= $fetch_product['id']; ?>" 
+                                                data-product-image="<?= $fetch_product['product_image']; ?>" 
+                                                data-product-name="<?= $fetch_product['product_name']; ?>" 
+                                                data-product-price="<?= $fetch_product['product_price']; ?>" 
+                                                data-discounted-price="<?= $discounted_price; ?>" 
+                                                onclick="addToWishlist(event)"></a>
                                         </div>
                                         <input type="hidden" name="pid" value="<?= $fetch_product['id']; ?>">
                                         <div class="product_images">
@@ -210,36 +216,38 @@ if(isset($_POST['search'])) {
             });
         }
         function addToWishlist(event) {
-            event.preventDefault();
+    event.preventDefault();
 
-            var productId = $(event.target).data('pid');
-            var productImage = $(event.target).data('product-image');
-            var productName = $(event.target).data('product-name');
-            var productPrice = $(event.target).data('product-price');
+    var productId = $(event.target).data('pid');
+    var productImage = $(event.target).data('product-image');
+    var productName = $(event.target).data('product-name');
+    var productPrice = $(event.target).data('product-price');
+    var discountedPrice = $(event.target).data('discounted-price');
 
-            $.ajax({
-                type: 'POST',
-                url: 'wishlist_db.php',
-                data: {
-                    productId: productId,
-                    productImage: productImage,
-                    productName: productName,
-                    productPrice: productPrice
-                },
-                dataType: 'json',
-                success: function(response) {
-                    if (response && response.success) {
-                        alert('Item added to wishlist successfully!');
-                        window.location.href = "wishlist.php";
-                    } else {
-                        alert('Error adding item to wishlist: ' + response.error);
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error adding item to wishlist:', error);
-                }
-            });
+    $.ajax({
+        type: 'POST',
+        url: 'wishlist_db.php',
+        data: {
+            productId: productId,
+            productImage: productImage,
+            productName: productName,
+            productPrice: productPrice,
+            discountedPrice: discountedPrice // Pass discounted price to the server
+        },
+        dataType: 'json',
+        success: function(response) {
+            if (response && response.success) {
+                alert('Item added to wishlist successfully!');
+                window.location.href = "wishlist.php";
+            } else {
+                alert('Error adding item to wishlist: ' + response.error);
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Error adding item to wishlist:', error);
         }
+    });
+}
        
     </script>
     
