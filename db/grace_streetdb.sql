@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 25, 2024 at 02:57 PM
+-- Generation Time: May 24, 2024 at 09:31 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `grace_streetdbed`
+-- Database: `grace_streetdb`
 --
 
 -- --------------------------------------------------------
@@ -42,9 +42,10 @@ CREATE TABLE `cart` (
 --
 
 INSERT INTO `cart` (`ID`, `Product_Name`, `Product_Price`, `Product_Quantity`, `Product_Image`, `user_id`, `user_email`) VALUES
-(92, 'Thony', 31.00, 1, 0x3432393438323935385f3732393736363833323631353830375f323833313334313532383135383830313233375f6e2e6a7067, 18, 'tebs@gmail.com'),
-(93, 'Coziest Item', 499.00, 1, 0x312e6a7067, 18, 'tebs@gmail.com'),
-(94, 'Coziest V2', 299.00, 2, 0x352e6a7067, 18, 'tebs@gmail.com');
+(115, 'francis', 600.00, 1, 0x766972676f2e706e67, 20, 'matthew@gmail.com'),
+(143, 'matthew', 560.00, 1, 0x6d6f64656c2e706e67, 15, 'ron@gmail.com'),
+(144, 'Brave Heart', 500.00, 1, 0x425241564548454152542e6a7067, 15, 'ron@gmail.com'),
+(145, 'sample1', 816.00, 2, 0x686f6d652e706e67, 15, 'ron@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -61,13 +62,6 @@ CREATE TABLE `contact` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `contact`
---
-
-INSERT INTO `contact` (`id`, `name`, `email`, `number`, `message`, `created_at`) VALUES
-(1, 'Kenneth', 'John@gmail.com', 9231233, 'I like it ', '2024-04-21 06:14:18');
-
 -- --------------------------------------------------------
 
 --
@@ -78,28 +72,33 @@ CREATE TABLE `grace_user` (
   `id` int(100) NOT NULL,
   `username` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `password` varchar(100) NOT NULL
+  `password` varchar(100) NOT NULL,
+  `role` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `grace_user`
 --
 
-INSERT INTO `grace_user` (`id`, `username`, `email`, `password`) VALUES
-(1, 'matthew', 'quintom53@gmail.com', '8cb2237d0679ca88db6464eac60da96345513964'),
-(2, 'Jerico Enopia', 'jerico@gmail.com', '1a9b9508b6003b68ddfe03a9c8cbc4bd4388339b'),
-(3, 'admin', 'kaykay@gmail.com', '403d9917c3e950798601addf7ba82cd3c83f344b'),
-(4, 'Rico Kenetthe Recta', 'rico@gmail.com', '3e511da7577d1864871b760ab30e05b56943c9b2'),
-(5, 'jam', 'jam@gmail.com', '69df79bef9287d3bcb8f104a408b06de6a108fd8'),
-(11, 'matthew', 'quintom53@gmail.com', '7b21848ac9af35be0ddb2d6b9fc3851934db8420'),
-(12, 'jessica', 'jessica@gmail.com', '69df79bef9287d3bcb8f104a408b06de6a108fd8'),
-(13, 'mike', 'mike@gmail.com', 'cae758978da31fa3b0b19edb1177738d4f57f8dd'),
-(14, 'francis', 'francis@gmail.com', '30d1600eb2ec9e8b74a997edccb12c91328d8e23'),
-(15, 'ron', 'ron@gmail.com', 'c1ecdc5b69acd9e42bf97f806206bdc769c42ee4'),
-(16, 'Kenneth', 'John@gmail.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef'),
-(17, 'Lani', 'Lani@gmail.com', '8cb2237d0679ca88db6464eac60da96345513964'),
-(18, 'tebs', 'tebs@gmail.com', '954a4c80e031984fe6e6f8371704dc8bc50eab6b'),
-(19, 'admins', 'admins@gmail.com', 'c6c92702a84b81ae490d98d6ec71b92d1802a190');
+INSERT INTO `grace_user` (`id`, `username`, `email`, `password`, `role`) VALUES
+(15, 'ron', 'ron@gmail.com', 'c1ecdc5b69acd9e42bf97f806206bdc769c42ee4', ''),
+(19, 'admins', 'admins@gmail.com', 'c6c92702a84b81ae490d98d6ec71b92d1802a190', 'admin'),
+(26, 'jam', 'jam@gmail.com', '534fc104463b0867a8e4a4c33ab06b6416d54aee', ''),
+(27, 'Employee', 'employee@gmail.com', 'caf322f0bbed721eac4a36bf7aff1103079faf25', 'employee');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `messages`
+--
+
+CREATE TABLE `messages` (
+  `id` int(11) NOT NULL,
+  `from_id` int(11) NOT NULL,
+  `to_id` int(11) NOT NULL,
+  `message` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -126,9 +125,8 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`ID`, `Name`, `Number`, `Email`, `Method`, `Address`, `Total_Products`, `Total_Price`, `Placed_on`, `Order_Status`, `order_email`) VALUES
-(35, 'Jerico hipanoa Enopia', '0988866756', 'jerico@gmail.com', 'cash_on_delivery', 'kaymito', '<span style=\"display: block; margin-bottom: 10px;\">- Thony PHP31.00(3)</span><span style=\"display: block; margin-bottom: 10px;\">- Coziest Item PHP499.00(1)</span>', 592.00, '2024-04-24', 'Received', 'tebs@gmail.com'),
-(36, 'Jan Matthew Ventura Quinto', '09992029392', 'quintom53@gmail.com', 'cash_on_delivery', '021 Kaymito st. villa Cuana Pinagbuhatan pasig city', '<span style=\"display: block; margin-bottom: 10px;\">- Thony PHP31.00(1)</span>', 31.00, '2024-04-24', 'Received', 'ron@gmail.com'),
-(37, 'jemicah jairus Ventura quinto', '88946345645', 'jairusquinto566@gmail.com', 'cash_on_delivery', 'kaymito', '<span style=\"display: block; margin-bottom: 10px;\">- Coziest Item PHP499.00(1)</span>', 499.00, '2024-04-25', '1', 'ron@gmail.com');
+(50, 'jemicah jairus Ventura quinto', '0999039293', 'jairusquinto566@gmail.com', 'cash_on_delivery', 'kaymito', '<span style=\"display: block; margin-bottom: 10px;\">- Thony PHP31.00(1)</span>', 31.00, '2024-05-24', '1', 'ron@gmail.com'),
+(51, 'jemicah jairus Ventura quinto', '09992029392', 'jairusquinto566@gmail.com', 'cash_on_delivery', 'kaymito', '<span style=\"display: block; margin-bottom: 10px;\">- sample1 PHP408.00(1)</span><span style=\"display: block; margin-bottom: 10px;\">- matthew PHP560.00(1)</span><span style=\"display: block; margin-bottom: 10px;\">- Brave Heart PHP500.00(1)</span><span style=\"display: block; margin-bottom: 10px;\">- Chosen Generation PHP500.00(1)</span><span style=\"display: block; margin-bottom: 10px;\">- sample2 PHP590.00(1)</span>', 2558.00, '2024-05-24', '0', 'ron@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -140,8 +138,13 @@ CREATE TABLE `product_list` (
   `id` int(100) NOT NULL,
   `product_image` varchar(100) NOT NULL,
   `product_name` varchar(100) NOT NULL,
-  `product_stock` int(100) NOT NULL,
+  `product_stock_s` int(100) NOT NULL,
+  `product_stock_m` int(100) NOT NULL,
+  `product_stock_l` int(100) NOT NULL,
+  `product_stock_xl` int(100) NOT NULL,
+  `product_stock_xxl` int(100) NOT NULL,
   `product_price` varchar(100) NOT NULL,
+  `product_discount` int(100) NOT NULL,
   `product_status` varchar(11) NOT NULL,
   `date` date DEFAULT NULL,
   `gender` varchar(20) NOT NULL,
@@ -152,16 +155,48 @@ CREATE TABLE `product_list` (
 -- Dumping data for table `product_list`
 --
 
-INSERT INTO `product_list` (`id`, `product_image`, `product_name`, `product_stock`, `product_price`, `product_status`, `date`, `gender`, `description`) VALUES
-(52, 'cancer.png', 'mikay', 78, '600', 'Available', NULL, '', NULL),
-(53, 'leo.png', 'strong', 89, '450', 'Available', NULL, '', NULL),
-(54, 'aries.png', 'gods perfect timing ', 58, '800', 'Available', NULL, '', NULL),
-(55, 'capricorn.png', 'matthew', 78, '600', 'Available', NULL, '', NULL),
-(56, 'monkey.png', 'sample23', 89, '600', 'Available', NULL, '', NULL),
-(57, '2.jpg', 'Coziest', 55, '399', 'Available', NULL, '', NULL),
-(58, '1.jpg', 'Coziest Item', 33, '499', 'Available', '2024-04-20', '', NULL),
-(59, '429482958_729766832615807_2831341528158801237_n.jpg', 'Thony', 32, '31', 'Available', '2024-04-21', 'Mens', 'Free archived shirts or hoodies, for the first 100 orders on our Shopee & Lazada! So make sure to fo'),
-(60, '5.jpg', 'Coziest V2', 55, '299', 'Available', '2024-04-22', 'Mens', 'Join the first 100 lucky winners of a FREE Shirt or a FREE Hoodie with a minimum purchase of ₱ 600.00, this coming 12AM (April 1');
+INSERT INTO `product_list` (`id`, `product_image`, `product_name`, `product_stock_s`, `product_stock_m`, `product_stock_l`, `product_stock_xl`, `product_stock_xxl`, `product_price`, `product_discount`, `product_status`, `date`, `gender`, `description`) VALUES
+(63, 'WAYTRUTHLIFE.jpg', 'Way Truth Lifeee', 10, 5, 2, 0, 0, '500', 0, 'Available', '2024-05-08', 'Mens', ''),
+(64, 'SPOILERALERT.jpg', 'Spoiler Alert', 10, 0, 0, 2, 0, '500', 0, 'Available', '2024-05-08', 'Mens', ''),
+(66, 'SETAAPART.jpg', 'Set Apart', 10, 0, 0, 0, 0, '500', 0, 'Available', '2024-05-08', 'Mens', ''),
+(67, 'SELAH.jpg', 'Selah', 10, 0, 0, 0, 0, '500', 0, 'Available', '2024-05-08', 'Mens', ''),
+(68, 'SALTYANDLIT.jpg', 'Salty And Lit', 10, 0, 0, 0, 0, '500', 0, 'Available', '2024-05-08', 'Womens', ''),
+(69, 'PRAY247.jpg', 'Pray 24/7', 10, 0, 0, 0, 0, '500', 0, 'Available', '2024-05-08', 'Womens', ''),
+(70, 'PRAISEONREPEAT.jpg', 'Praise on Repeat', 10, 0, 0, 0, 0, '500', 0, 'Available', '2024-05-08', 'Mens', ''),
+(71, 'ph-11134207-7r98x-lr2wtdahnnlw06_tn.jpg', 'Light of the world', 50, 0, 0, 0, 0, '500', 0, 'Available', '2024-05-08', 'Mens', ''),
+(72, 'ph-11134207-7r98v-lr2wtdahf8781b.jpg', 'Jesus is King', 10, 0, 0, 0, 0, '500', 0, 'Available', '2024-05-08', 'Womens', ''),
+(73, 'ph-11134207-7r98u-lr2wtdahqgqs9c_tn.jpg', 'SteadFast', 10, 0, 0, 0, 0, '500', 0, 'Available', '2024-05-08', 'Womens', ''),
+(74, 'ph-11134207-7r98t-lr2wtdbbb77o82_tn.jpg', 'I am Child of God', 10, 0, 0, 0, 0, '500', 0, 'Available', '2024-05-08', 'Womens', ''),
+(75, 'ph-11134207-7r98r-lr2l0oww18tx42_tn.jpg', 'No Longer Slave', 10, 0, 0, 0, 0, '500', 0, 'Available', '2024-05-08', 'Womens', ''),
+(76, 'ph-11134207-7r98q-lr2wtdbbcls4e5_tn.jpg', 'His love is Phenomenal', 10, 0, 0, 0, 0, '500', 0, 'Available', '2024-05-08', 'Womens', ''),
+(77, 'ph-11134207-7r98q-lr2wtdahjfwk38_tn.jpg', 'Be The Light', 10, 0, 0, 0, 0, '500', 0, 'Available', '2024-05-08', 'Mens', ''),
+(78, 'ph-11134207-7r98p-lr2wtdahgmrof6_tn.jpg', 'Living for the King', 10, 0, 0, 0, 0, '500', 0, 'Available', '2024-05-08', 'Mens', ''),
+(79, 'NOLONGERSLAVE.jpg', 'No longer Slave', 10, 0, 0, 0, 0, '500', 0, 'Available', '2024-05-08', 'Mens', ''),
+(80, 'MADENEW.jpg', 'Made New', 10, 0, 0, 0, 0, '500', 0, 'Available', '2024-05-08', 'Mens', ''),
+(81, 'JESUSJESUS.jpg', 'Jesus Jesus', 10, 0, 0, 0, 0, '500', 0, 'Available', '2024-05-08', 'Mens', ''),
+(82, 'IMNOTASHAMED.jpg', 'Not Ashamed', 10, 0, 0, 0, 0, '500', 0, 'Available', '2024-05-08', 'Mens', ''),
+(83, 'HISMERCYFLOWS.jpg', 'His Mercy Flows', 10, 0, 0, 0, 0, '500', 0, 'Available', '2024-05-08', 'Womens', ''),
+(84, 'HEISABLE.jpg', 'He is Able', 10, 0, 0, 0, 0, '500', 0, 'Available', '2024-05-08', 'Mens', ''),
+(85, 'GODFIDENCE.jpg', 'Gofidence', 10, 0, 0, 0, 0, '500', 0, 'Available', '2024-05-08', 'Mens', ''),
+(86, 'GOAGAINSTTHECURRENT.jpg', 'Against the Current', 10, 0, 0, 0, 0, '500', 0, 'Available', '2024-05-08', 'Mens', ''),
+(87, 'GGVV.jpg', 'GGVV', 10, 0, 0, 0, 0, '500', 0, 'Available', '2024-05-08', 'Womens', ''),
+(88, 'FEARNOT.jpg', 'Fear Not', 10, 0, 0, 0, 0, '500', 0, 'Available', '2024-05-08', 'Womens', ''),
+(89, 'FEARHASNOPLACE.jpg', 'Hear has no place', 10, 0, 0, 0, 0, '500', 0, 'Available', '2024-05-08', '', ''),
+(90, 'FAITHOVERFEAR.jpg', 'Faith over Fear', 10, 0, 0, 0, 0, '500', 0, 'Available', '2024-05-08', '', ''),
+(91, 'FAITHITTILYOUMAKEIT.jpg', 'Faith it - Make it', 10, 0, 0, 0, 0, '500', 0, 'Available', '2024-05-08', '', ''),
+(92, 'ELEVATEYOURFAITH.jpg', 'Elevate Faith', 10, 0, 0, 0, 0, '500', 0, 'Available', '2024-05-08', '', ''),
+(93, 'DRUMMERFORTHELORD.jpg', 'Drummer for the lord', 10, 0, 0, 0, 0, '500', 0, 'Available', '2024-05-08', '', ''),
+(94, 'CREATEDWITHAPURPOSE.jpg', 'Created with Purpose', 10, 0, 0, 0, 0, '500', 0, 'Available', '2024-05-08', '', ''),
+(95, 'CREATEDTOWORSHIP.jpg', 'Created to worship', 10, 0, 0, 0, 0, '500', 0, 'Available', '2024-05-08', '', ''),
+(96, 'COUNTITALLJOY.jpg', 'Count it All joy', 10, 0, 0, 0, 0, '500', 0, 'Available', '2024-05-08', '', ''),
+(97, 'CITIZENOFHEAVEN.jpg', 'Citizen of Heaven', 10, 0, 0, 0, 0, '500', 0, 'Available', '2024-05-08', '', ''),
+(98, 'CHOSENNOTFORSAKEN.jpg', 'Chosen not Forsaken', 10, 0, 0, 0, 0, '500', 0, 'Available', '2024-05-08', '', ''),
+(99, 'CHOSENGENERATION.jpg', 'Chosen Generation', 9, 0, 0, 0, 0, '500', 0, 'Available', '2024-05-08', '', ''),
+(100, 'CHOOSELIFE.jpg', 'Choose Life', 10, 0, 0, 0, 0, '500', 0, 'Available', '2024-05-08', '', ''),
+(101, 'BRAVEHEART.jpg', 'Brave Heart', 9, 0, 0, 0, 0, '500', 0, 'Available', '2024-05-08', '', ''),
+(102, 'model.png', 'matthew', 22, 22, 3, 4, 2, '800', 30, 'Available', '2024-05-24', 'Womens', 'quality'),
+(103, 'home.png', 'sample1', 20, 32, 32, 23, 23, '680', 40, 'Available', '2024-05-24', 'Mens', 'quality'),
+(104, 'leo.png', 'sample2', 32, 2, 23, 21, 2, '590', 0, 'Available', '2024-05-24', 'Mens', 'dawdawd');
 
 -- --------------------------------------------------------
 
@@ -178,6 +213,13 @@ CREATE TABLE `wishlist` (
   `Wishlist_Price` decimal(10,2) DEFAULT NULL,
   `Wishlist_Quantity` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `wishlist`
+--
+
+INSERT INTO `wishlist` (`ID`, `user_id`, `user_email`, `Wishlist_Image`, `Wishlist_Name`, `Wishlist_Price`, `Wishlist_Quantity`) VALUES
+(31, 15, 'ron@gmail.com', 0x6c656f2e706e67, 'sample2', 590.00, 1);
 
 --
 -- Indexes for dumped tables
@@ -199,6 +241,12 @@ ALTER TABLE `contact`
 -- Indexes for table `grace_user`
 --
 ALTER TABLE `grace_user`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `messages`
+--
+ALTER TABLE `messages`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -227,37 +275,43 @@ ALTER TABLE `wishlist`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=146;
 
 --
 -- AUTO_INCREMENT for table `contact`
 --
 ALTER TABLE `contact`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `grace_user`
 --
 ALTER TABLE `grace_user`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+
+--
+-- AUTO_INCREMENT for table `messages`
+--
+ALTER TABLE `messages`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `product_list`
 --
 ALTER TABLE `product_list`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
 
 --
 -- AUTO_INCREMENT for table `wishlist`
 --
 ALTER TABLE `wishlist`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
